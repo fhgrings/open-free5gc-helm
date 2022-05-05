@@ -1,0 +1,45 @@
+{{- with .Values.smf }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .configmap.name }}
+  labels:
+    app: {{ $.Values.global.projectName }}
+data:
+  smfcfg.yaml: |
+    info:
+      version: 1.0.2
+      description: SMF initial local configuration
+
+    configuration:
+      serviceNameList:
+        {{- .configuration.serviceNameList | nindent 8 }}
+      
+      sbi:
+        scheme: {{ $.Values.global.sbi.scheme }}
+        registerIPv4: {{ .service.name }} # IP used to register to NRF
+        bindingIPv4: 0.0.0.0  # IP used to bind the service
+        port: {{ .service.port }}
+        tls:
+          key: config/TLS/smf.key
+          pem: config/TLS/smf.pem
+      
+      nrfUri: {{ $.Values.global.sbi.scheme }}://{{ $.Values.global.nrf.service.name }}:{{ $.Values.global.nrf.service.port }}
+
+      pfcp:
+        addr: {{ $.Values.global.smf.n4if.ipAddress }}
+      
+      {{- .configuration.configuration | nindent 6 }}
+
+    logger:
+      {{- toYaml .configuration.logger | nindent 6 }}
+
+
+  uerouting.yaml: |
+    info:
+      version: 1.0.1
+      description: Routing information for UE
+    ueRoutingInfo:
+      {{- .configuration.ueRoutingInfo | nindent 6 }}
+      
+{{- end }}
