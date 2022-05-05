@@ -1,0 +1,40 @@
+{{- with .Values.amf }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .configmap.name }}
+  labels:
+    app: {{ $.Values.global.projectName }}
+data:
+  amfcfg.yaml: |
+    info:
+      version: 1.0.3
+      description: AMF initial local configuration
+
+    configuration:
+      serviceNameList:
+        {{- .configuration.serviceNameList | nindent 8 }}
+
+      ngapIpList:
+{{- if $.Values.global.amf.service.ngap.enabled }}
+        - 0.0.0.0
+{{- else }}
+        - {{ $.Values.global.amf.n2if.ipAddress }}
+{{- end }}
+      sbi:
+        scheme: {{ $.Values.global.sbi.scheme }}
+        registerIPv4: {{ .service.name }} # IP used to register to NRF
+        bindingIPv4: 0.0.0.0  # IP used to bind the service
+        port: {{ .service.port }}
+        tls:
+          key: config/TLS/amf.key
+          pem: config/TLS/amf.pem
+      
+      nrfUri: {{ $.Values.global.sbi.scheme }}://{{ $.Values.global.nrf.service.name }}:{{ $.Values.global.nrf.service.port }}
+      
+      {{- .configuration.configuration | nindent 6 }}
+
+    logger:
+      {{- toYaml .configuration.logger | nindent 6 }}
+
+{{- end }}

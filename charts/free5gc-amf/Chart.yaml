@@ -1,0 +1,6 @@
+apiVersion: v2
+name: free5gc-amf
+description: A Helm chart to deploy the Free5GC AMF
+type: application
+version: 0.2.2
+appVersion: "v3.1.1"

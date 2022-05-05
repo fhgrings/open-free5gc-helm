@@ -1,0 +1,12 @@
+apiVersion: v2
+name: free5gc
+description: A Helm chart to deploy Free5gc
+version: 1.1.2
+appVersion: "v3.1.1"
+dependencies:
+- name: mongodb
+  condition: deployMongoDB
+- name: free5gc-amf
+  condition: deployAMF
+- name: free5gc-nrf
+  condition: deployNRF

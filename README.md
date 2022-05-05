@@ -1,2 +1,5 @@
-# open-free5gc-helm
-Straight to the point free5gc helm with kube-proxy working to horizontal scaling
+# Mini free5gc helm
+
+Only NGAP core interface functions to test gNB connectivities
+
+...Developing...

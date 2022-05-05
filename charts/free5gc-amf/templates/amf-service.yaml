@@ -1,0 +1,40 @@
+{{- with .Values.amf }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .service.name }}
+  labels:
+    {{- include "free5gc-amf.labels" $ | nindent 4 }}
+    project: {{ $.Values.global.projectName }}
+    nf: {{ .name }}
+spec:
+  type: {{ .service.type }}
+  ports:
+    - port: {{ .service.port }}
+      targetPort: {{ .service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "free5gc-amf.selectorLabels" $ | nindent 4 }}
+    project: {{ $.Values.global.projectName }}
+    nf: {{ .name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Values.global.amf.service.ngap.name }}
+  labels:
+    project: {{ $.Values.global.projectName }}
+    nf: {{ .name }}
+spec:
+  type: {{ $.Values.global.amf.service.ngap.type }}
+  ports:
+    - name: n2
+      port: {{ $.Values.global.amf.service.ngap.port }}
+      nodePort: {{ $.Values.global.amf.service.ngap.nodeport }}
+      protocol: {{ $.Values.global.amf.service.ngap.protocol }}
+  selector:
+    project: {{ $.Values.global.projectName }}
+    nf: {{ .name }}
+
+{{- end }}
