@@ -19,7 +19,7 @@ global:
         enabled: false
         name: amf-n2
         port: 38412
-        nodeport: 31412
+        nodeport: 38412
         protocol: SCTP
         type: NodePort
   n2network:
