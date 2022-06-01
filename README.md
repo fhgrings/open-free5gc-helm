@@ -1,5 +1,5 @@
 # Open Free5gc Helm
 
-Only NGAP core interface functions to test gNB connectivities
+Helm for Free5gc Core Using Calico CNI
 
 ...Developing...
