@@ -1,4 +1,4 @@
-# Mini free5gc helm
+# Open Free5gc Helm
 
 Only NGAP core interface functions to test gNB connectivities
 
